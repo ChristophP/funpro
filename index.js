@@ -1,0 +1,166 @@
+const R = require('ramda');
+
+// Union
+const unionEquals = function(union = {}) {
+  return this.__ctor === union.__ctor && R.equals(this.__args, union.__args);
+};
+
+const union = props => {
+  const Union = function(ctor, args) {
+    this.__ctor = ctor;
+    this.__args = args;
+    return this;
+  };
+
+  // static
+  const tags = Object.keys(props);
+  Union.__tags = tags;
+  tags.forEach(ctor => {
+    const arity = props[ctor];
+    Union[ctor] = (...args) => new Union(ctor, args.slice(0, arity));
+  });
+
+  // prototype
+  Union.prototype.equals = unionEquals;
+  Union.prototype.__UNION__ = true;
+
+  return Union;
+};
+
+// Pattern matching
+const matchWith = (union, cases) => {
+  const { __ctor: ctor } = union;
+  const allIncluded = (arr1, arr2) => {
+    return arr1.every(key => arr2.includes(key));
+  };
+  if (!union.__UNION__) {
+    throw new Error('Trying to pattern match a non-union type.');
+  }
+  if (!allIncluded(Object.keys(cases), union.constructor.__tags)) {
+    throw new Error('There are not enough branches for all possibilities.');
+  }
+  if (!allIncluded(union.constructor.__tags, Object.keys(cases))) {
+    throw new Error('There are unrecognizes patters in some branches.');
+  }
+  if (ctor in cases && typeof cases[ctor] === 'function') {
+    return cases[ctor](...union.__args);
+  }
+};
+
+// Maybe
+const Maybe = union({
+  Just: 1,
+  Nothing: 0,
+});
+
+Maybe.of = Maybe.Just;
+
+Maybe.prototype.map = function(func) {
+  return matchWith(this, {
+    Just: val => Maybe.Just(func(val)),
+    Nothing: () => this,
+  });
+};
+
+Maybe.prototype.chain = function(func) {
+  return matchWith(this, {
+    Just: func,
+    Nothing: () => this,
+  });
+};
+
+// Result
+const Result = union({
+  Err: 1,
+  Ok: 1,
+});
+
+Result.of = Result.Ok;
+
+Result.prototype.map = function(func) {
+  return matchWith(this, {
+    Err: () => this,
+    Ok: val => Result.Ok(func(val)),
+  });
+};
+
+Result.prototype.mapError = function(func) {
+  return matchWith(this, {
+    Err: val => Result.Err(func(val)),
+    Ok: () => this,
+  });
+};
+
+Result.prototype.chain = function(func) {
+  return matchWith(this, {
+    Err: () => this,
+    Ok: func,
+  });
+};
+
+// Task
+const Task = function(f, args = []) {
+  this.__func = f;
+  this.__args = args;
+};
+
+Task.of = (...args) => {
+  return new Task(...args);
+};
+
+Task.succeed = val => {
+  return new Task(() => Promise.resolve(val));
+};
+
+Task.fail = err => {
+  return new Task(() => Promise.reject(err));
+};
+
+// Batching Tasks
+// concurrently
+Task.all = taskList => {
+  return new Task(() => {
+    const promises = taskList.map(task => task.run());
+    return Promise.all(promises);
+  });
+};
+
+// sequentially (convenience wrapper for a chained task)
+Task.sequence = taskList =>
+  taskList.reduce(
+    (acc, task) => task.chain(val => acc.map(R.append(val))),
+    Task.succeed([])
+  );
+
+// should never be called manually (only by the calling program)
+Task.prototype.run = function() {
+  return Promise.resolve(this.__func(...this.__args));
+};
+
+Task.prototype.map = function(func) {
+  const newFunc = () => this.run().then(func);
+  return new Task(newFunc);
+};
+
+Task.prototype.mapError = function(func) {
+  const newFunc = () => this.run().catch(err => Promise.reject(func(err)));
+  return new Task(newFunc);
+};
+
+Task.prototype.chain = function(func) {
+  const newFunc = () => this.run().then(val => func(val).run());
+  return new Task(newFunc);
+};
+
+Task.prototype.onError = function(func) {
+  const newFunc = () => this.run().catch(err => func(err).run());
+  return new Task(newFunc);
+};
+
+module.exports = {
+  union,
+  matchWith,
+  Maybe,
+  Result,
+  Task,
+};
