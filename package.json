@@ -4,8 +4,16 @@
   "description": "",
   "main": "pure-app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha *.test.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^4.1.0"
+  },
+  "dependencies": {
+    "ramda": "^0.25.0"
+  }
 }

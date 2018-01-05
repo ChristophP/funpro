@@ -4,7 +4,7 @@ const chaiAsPromised = require('chai-as-promised');
 const expect = chai.expect;
 chai.use(chaiAsPromised);
 
-const { union, matchWith, Maybe, Result, Task } = require('./util');
+const { union, matchWith, Maybe, Result, Task } = require('./index');
 
 const unionEquals = val1 => val2 => val1.equals(val2);
 
