@@ -1,6 +1,5 @@
-# PURE
+# PURE **Coming soon**
 
-**Coming soon**
 
 Integrates with Ramda, Fantasyland Spec.
 Inspired by Elm, Haskell, Folktale.
