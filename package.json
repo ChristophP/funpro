@@ -1,6 +1,6 @@
 {
   "name": "funpro",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Be functional by using union types, pattern matching, and pure side-effects",
   "main": "dist/bundle.js",
   "scripts": {
