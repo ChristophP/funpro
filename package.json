@@ -1,7 +1,17 @@
 {
   "name": "funpro",
   "version": "0.1.7",
-  "description": "Be functional by using union types, pattern matching, and pure side-effects",
+  "description":
+    "Be functional by using union types, pattern matching, and pure side-effects",
+  "keywords": [
+    "functional programming",
+    "functional",
+    "maybe",
+    "async task",
+    "pure",
+    "union types",
+    "pattern matching"
+  ],
   "main": "dist/bundle.js",
   "scripts": {
     "build": "webpack -p",
