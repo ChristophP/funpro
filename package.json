@@ -1,10 +1,12 @@
 {
   "name": "funpro",
   "version": "0.1.0",
-  "description": "Be functional by using union types, pattern matching, and pure side-effects",
+  "description":
+    "Be functional by using union types, pattern matching, and pure side-effects",
   "main": "dist/bundle.js",
   "scripts": {
     "build": "webpack -p",
+    "prepublishOnly": "npm run build",
     "test": "mocha *.test.js"
   },
   "author": "",
