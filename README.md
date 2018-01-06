@@ -2,7 +2,7 @@
 
 
 Integrates with Ramda, Fantasyland Spec.
-Inspired by Elm, Haskell, Folktale.
+Inspired by Elm, Haskell, Folktale and Prof. Frisby.
 
 ## Union types(Algebraic data types)
 
@@ -63,9 +63,12 @@ does not have side-effects except for that isolated place where you call `.run()
 
 ```js
 // function that kicks of your app
-main = () => appTask.run()
+main = () => appTask
   .chain(() => fetchDataTask)
   .onError(err => {
     // catch or log the error
   })
+
+// then run it somewhere
+main.run()
 ```
