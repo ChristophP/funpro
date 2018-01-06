@@ -1,8 +1,13 @@
-# PURE **Coming soon**
+# FunPro
 
+**The Readme is still young and under construction, more docs to follow soon**
 
 Integrates with Ramda, Fantasyland Spec.
 Inspired by Elm, Haskell, Folktale and Prof. Frisby.
+
+```sh
+npm i -S funpro
+```
 
 ## Union types(Algebraic data types)
 
@@ -72,3 +77,7 @@ main = Task.of(() => startApp())
 // then run it somewhere
 main.run()
 ```
+
+## Random
+### The mission
+### What's up with the name?
