@@ -69,7 +69,7 @@ const maybePrice = getItemPrice(item); // returns a Maybe with the price or Noth
 
 const displayPrice = matchtWith(maybePrice, {
   Just: val => `${val.toString} + $`,
-  Nothing: 'not for sale'
+  Nothing: () => 'not for sale',
 })
 ```
 
