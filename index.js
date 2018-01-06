@@ -1,8 +1,13 @@
-const R = require('ramda');
+const equals = require('deep-equal');
+
+const append = val => list => [...list, val];
 
 // Union
 const unionEquals = function(union = {}) {
-  return this.__ctor === union.__ctor && R.equals(this.__args, union.__args);
+  return (
+    this.__ctor === union.__ctor &&
+    equals(this.__args, union.__args, { strict: true })
+  );
 };
 
 const union = props => {
@@ -40,11 +45,12 @@ const matchWith = (union, cases) => {
     throw new Error('There are not enough branches for all possibilities.');
   }
   if (!allIncluded(union.constructor.__tags, Object.keys(cases))) {
-    throw new Error('There are unrecognizes patters in some branches.');
+    throw new Error('There are unrecognized patters in some branches.');
   }
-  if (ctor in cases && typeof cases[ctor] === 'function') {
-    return cases[ctor](...union.__args);
+  if (!(ctor in cases) || typeof cases[ctor] !== 'function') {
+    throw new Error(`The constructor ${ctor} is not a function.`);
   }
+  return cases[ctor](...union.__args);
 };
 
 // Maybe
@@ -128,7 +134,7 @@ Task.all = taskList => {
 // sequentially (convenience wrapper for a chained task)
 Task.sequence = taskList =>
   taskList.reduce(
-    (acc, task) => task.chain(val => acc.map(R.append(val))),
+    (acc, task) => task.chain(val => acc.map(append(val))),
     Task.succeed([])
   );
 
