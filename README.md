@@ -8,6 +8,14 @@ Inspired by Elm, Haskell, Folktale and Prof. Frisby.
 ```sh
 npm i -S funpro
 ```
+in your js
+```js
+// commonJS
+const { union, matchWith, Maybe, Result, Task } = require('funpro');
+
+// ES6
+import { union, matchWith, Maybe, Result, Task } from 'funpro';
+```
 
 ## Union types(Algebraic data types)
 
