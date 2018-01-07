@@ -49,6 +49,17 @@ describe('union', () => {
       const badFn = () => matchWith('not a union', {});
       expect(badFn).to.throw();
     });
+
+    it('creates curried constructors', () => {
+      const Point = union({ Point: 2 });
+      const Color = union({ RGB: 3 });
+      const Bool = union({ True: 0, False: 0 });
+      expect(Color.RGB(255, 0, 0)).to.satisfy(
+        unionEquals(Color.RGB(255)(0)(0))
+      );
+      expect(Point.Point(1, 0)).to.satisfy(unionEquals(Point.Point(1)(0)));
+      expect(Bool.True()).to.satisfy(unionEquals(Bool.True()));
+    });
   });
 
   describe('prototype', () => {

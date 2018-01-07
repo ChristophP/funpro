@@ -1,5 +1,15 @@
 const equals = require('deep-equal');
 
+const curryToArity = (fn, arity) => {
+  const resolver = (...args) => {
+    return (...innerArgs) => {
+      const local = [...args, ...innerArgs];
+      return local.length >= arity ? fn(...local) : resolver(...local);
+    };
+  };
+  return resolver();
+};
+
 const append = val => list => [...list, val];
 
 // Union
@@ -22,7 +32,7 @@ const union = props => {
   Union.__tags = tags;
   tags.forEach(ctor => {
     const arity = props[ctor];
-    Union[ctor] = (...args) => new Union(ctor, args.slice(0, arity));
+    Union[ctor] = curryToArity((...args) => new Union(ctor, args), arity);
   });
 
   // prototype
