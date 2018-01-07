@@ -19,6 +19,11 @@ const { union, matchWith, Maybe, Result, Task } = require('funpro');
 import { union, matchWith, Maybe, Result, Task } from 'funpro';
 ```
 
+Also check out the guide for this library
+[here](https://christophp.gitbooks.io/funpro/). It has a lot of brackground
+, tips and usage example to get the most out of JS when used for functional
+programming.
+
 ## Union types (Algebraic data types)
 
 Union types or ADTs let you model your domain more precisely than with
