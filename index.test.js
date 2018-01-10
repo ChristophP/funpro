@@ -278,7 +278,7 @@ describe('Task', () => {
       it('maps when successful', () => {
         const double = a => a * 2;
         const task = Task.succeed(42).map(double);
-        expect(task.run()).to.eventually.equal(84);
+        return expect(task.run()).to.eventually.equal(84);
       });
     });
 
@@ -286,7 +286,7 @@ describe('Task', () => {
       it('maps the error when failed', () => {
         const toLower = str => str.toLowerCase();
         const task = Task.fail('OH NO').mapError(toLower);
-        expect(task.run()).to.be.rejectedWith('oh no');
+        return expect(task.run()).to.be.rejectedWith('oh no');
       });
     });
 
@@ -295,7 +295,7 @@ describe('Task', () => {
         const task = Task.succeed('Hello');
         const toConcatTask = val => Task.of(() => val.concat('!!!'));
         const chainedTask = task.chain(toConcatTask);
-        expect(chainedTask.run()).to.eventually.equal('Hello!!!');
+        return expect(chainedTask.run()).to.eventually.equal('Hello!!!');
       });
     });
 
@@ -303,7 +303,7 @@ describe('Task', () => {
       it('catches and flattens when failed', () => {
         const toConcatTask = val => Task.of(() => val.concat('!!!'));
         const task = Task.fail('Oh no').onError(toConcatTask);
-        expect(task.run()).to.eventually.equal('Oh no!!!');
+        return expect(task.run()).to.eventually.equal('Oh no!!!');
       });
     });
   });
