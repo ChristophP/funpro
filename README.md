@@ -136,7 +136,8 @@ does not have side-effects except for that isolated place where you call `.run()
 
 ```js
 // function that kicks of your app
-main = Task.of(() => startApp())
+const startApp = () => loadAssets();
+main = Task.of(startApp)
   .chain(() => fetchDataTask)
   .onError(err => {
     // catch or log the error
