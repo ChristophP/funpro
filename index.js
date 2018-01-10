@@ -10,7 +10,7 @@ const curryToArity = (fn, arity) => {
   return resolver();
 };
 
-const append = val => list => [...list, val];
+const append = (val, list) => [...list, val];
 
 // Union
 const unionEquals = function(union = {}) {
@@ -144,8 +144,8 @@ Task.all = taskList => {
 // sequentially (convenience wrapper for a chained task)
 Task.sequence = taskList =>
   taskList.reduce(
-    (acc, task) => task.chain(val => acc.map(append(val))),
-    Task.succeed([])
+    (acc, task) => acc.chain(queue => task.map(val => append(val, queue))),
+    Task.succeed([]),
   );
 
 // should never be called manually (only by the calling program)

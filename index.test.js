@@ -55,7 +55,7 @@ describe('union', () => {
       const Color = union({ RGB: 3 });
       const Bool = union({ True: 0, False: 0 });
       expect(Color.RGB(255, 0, 0)).to.satisfy(
-        unionEquals(Color.RGB(255)(0)(0))
+        unionEquals(Color.RGB(255)(0)(0)),
       );
       expect(Point.Point(1, 0)).to.satisfy(unionEquals(Point.Point(1)(0)));
       expect(Bool.True()).to.satisfy(unionEquals(Bool.True()));
@@ -186,7 +186,7 @@ describe('Result', () => {
 
     it("skips when it's Err", () => {
       expect(Result.Err('Oh no').map(double)).to.satisfy(
-        unionEquals(Result.Err('Oh no'))
+        unionEquals(Result.Err('Oh no')),
       );
     });
   });
@@ -195,13 +195,13 @@ describe('Result', () => {
     const toUpper = str => str.toUpperCase();
     it("skips when it's Ok", () => {
       expect(Result.Ok(3).mapError(toUpper)).to.satisfy(
-        unionEquals(Result.Ok(3))
+        unionEquals(Result.Ok(3)),
       );
     });
 
     it("maps the error when it's Err", () => {
       expect(Result.Err('Oh no').mapError(toUpper)).to.satisfy(
-        unionEquals(Result.Err('OH NO'))
+        unionEquals(Result.Err('OH NO')),
       );
     });
   });
@@ -216,13 +216,13 @@ describe('Result', () => {
     };
     it("maps and flattens when it's Ok", () => {
       expect(Result.Ok('{ "a": 3 }').chain(safeJsonParse)).to.satisfy(
-        unionEquals(Result.Ok({ a: 3 }))
+        unionEquals(Result.Ok({ a: 3 })),
       );
     });
 
     it("skips when it's Err", () => {
       expect(Result.Err('Oh no').chain(safeJsonParse)).to.satisfy(
-        unionEquals(Result.Err('Oh no'))
+        unionEquals(Result.Err('Oh no')),
       );
     });
   });
@@ -264,6 +264,15 @@ describe('Task', () => {
   describe('.sequence', () => {
     it('executes tasks in sequence', () => {
       const task = Task.sequence([Task.succeed(3), Task.succeed(5)]);
+      return expect(task.run()).to.eventually.deep.equal([3, 5]);
+    });
+
+    it('executes tasks in order from left to right', () => {
+      const delayTask = Task.of(
+        () => new Promise(resolve => setTimeout(resolve, 500)),
+      ).map(_ => 3);
+
+      const task = Task.sequence([delayTask, Task.succeed(5)]);
       return expect(task.run()).to.eventually.deep.equal([3, 5]);
     });
 
