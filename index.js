@@ -143,7 +143,7 @@ Task.all = taskList => {
 
 // sequentially (convenience wrapper for a chained task)
 Task.sequence = taskList =>
-  taskList.reduce((acc, task) => acc.mapWith(append, task), Task.succeed([]));
+  taskList.reduce((acc, task) => acc.map2(append, task), Task.succeed([]));
 
 // should never be called manually (only by the calling program)
 Task.prototype.run = function() {
@@ -155,7 +155,7 @@ Task.prototype.map = function(func) {
   return new Task(newFunc);
 };
 
-Task.prototype.mapWith = function(func, task) {
+Task.prototype.map2 = function(func, task) {
   const newFunc = () =>
     this.run().then(val1 => task.run().then(val2 => func(val1, val2)));
   return new Task(newFunc);

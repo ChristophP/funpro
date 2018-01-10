@@ -291,16 +291,16 @@ describe('Task', () => {
       });
     });
 
-    describe('.mapWith', () => {
+    describe('.map2', () => {
       it('maps when successful', () => {
         const add = (a, b) => a + b;
-        const task = Task.succeed(42).mapWith(add, Task.succeed(3));
+        const task = Task.succeed(42).map2(add, Task.succeed(3));
         return expect(task.run()).to.eventually.equal(45);
       });
 
       it('fails when one of them fails', () => {
         const add = (a, b) => a + b;
-        const task = Task.succeed(42).mapWith(add, Task.fail('Oh no'));
+        const task = Task.succeed(42).map2(add, Task.fail('Oh no'));
         return expect(task.run()).to.eventually.be.rejectedWith('Oh no');
       });
     });
