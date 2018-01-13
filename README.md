@@ -1,10 +1,5 @@
 # FunPro
 
-**Also check out the guide for this library
-[here](https://christophp.gitbooks.io/funpro/). It has a lot of background
-, tips and usage example to get the most out of JS when used for functional
-programming.**
-
 Integrates with [Ramda](http://ramdajs.com/) and partly the
 [Fantasyland](https://github.com/fantasyland/fantasy-land) Spec.
 Inspired by [Elm](http://elm-lang.org/), [Haskell](https://www.haskell.org/),
@@ -22,6 +17,11 @@ const { union, matchWith, Maybe, Result, Task } = require('funpro');
 // ES6
 import { union, matchWith, Maybe, Result, Task } from 'funpro';
 ```
+
+Also check out:
+
+- the [guide](https://christophp.gitbooks.io/funpro/), with JS FP background, tips and usage examples
+- the official [API docs](https://christophp.gitbooks.io/funpro/content/ch5.html)
 
 
 ## Union types (Algebraic data types)
