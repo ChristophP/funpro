@@ -73,7 +73,7 @@ The answer is pattern matching:
 const maybePrice = getItemPrice(item); // returns a Maybe with the price or Nothing
 
 const displayPrice = matchtWith(maybePrice, {
-  Just: val => `${val.toString} + $`,
+  Just: val => `${val.toFixed(2)} $`,
   Nothing: () => 'not for sale',
 })
 ```
