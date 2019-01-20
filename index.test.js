@@ -55,7 +55,7 @@ describe('union', () => {
       const Color = union({ RGB: 3 });
       const Bool = union({ True: 0, False: 0 });
       expect(Color.RGB(255, 0, 0)).to.satisfy(
-        unionEquals(Color.RGB(255)(0)(0)),
+        unionEquals(Color.RGB(255)(0)(0))
       );
       expect(Point.Point(1, 0)).to.satisfy(unionEquals(Point.Point(1)(0)));
       expect(Bool.True()).to.satisfy(unionEquals(Bool.True()));
@@ -156,6 +156,32 @@ describe('Maybe', () => {
       expect(maybe.chain(listHead)).to.satisfy(unionEquals(Maybe.Nothing())).to;
     });
   });
+
+  describe('ap', () => {
+    it('applies the argument to a function', () => {
+      const add = a => b => a + b;
+      const maybeFn = Maybe.Just(add);
+      expect(maybeFn.ap(Maybe.Just(3)).ap(Maybe.Just(2))).to.satisfy(
+        unionEquals(Maybe.Just(5))
+      );
+    });
+
+    it('does nothing if function is Nothing', () => {
+      const add = a => b => a + b;
+      const maybeFn = Maybe.Nothing();
+      expect(maybeFn.ap(Maybe.Just(3)).ap(Maybe.Just(2))).to.satisfy(
+        unionEquals(Maybe.Nothing())
+      );
+    });
+
+    it('does nothing if value is Nothing', () => {
+      const add = a => b => a + b;
+      const maybeFn = Maybe.Just(add);
+      expect(maybeFn.ap(Maybe.Nothing())).to.satisfy(
+        unionEquals(Maybe.Nothing())
+      );
+    });
+  });
 });
 
 describe('Result', () => {
@@ -186,7 +212,7 @@ describe('Result', () => {
 
     it("skips when it's Err", () => {
       expect(Result.Err('Oh no').map(double)).to.satisfy(
-        unionEquals(Result.Err('Oh no')),
+        unionEquals(Result.Err('Oh no'))
       );
     });
   });
@@ -195,13 +221,13 @@ describe('Result', () => {
     const toUpper = str => str.toUpperCase();
     it("skips when it's Ok", () => {
       expect(Result.Ok(3).mapError(toUpper)).to.satisfy(
-        unionEquals(Result.Ok(3)),
+        unionEquals(Result.Ok(3))
       );
     });
 
     it("maps the error when it's Err", () => {
       expect(Result.Err('Oh no').mapError(toUpper)).to.satisfy(
-        unionEquals(Result.Err('OH NO')),
+        unionEquals(Result.Err('OH NO'))
       );
     });
   });
@@ -216,13 +242,39 @@ describe('Result', () => {
     };
     it("maps and flattens when it's Ok", () => {
       expect(Result.Ok('{ "a": 3 }').chain(safeJsonParse)).to.satisfy(
-        unionEquals(Result.Ok({ a: 3 })),
+        unionEquals(Result.Ok({ a: 3 }))
       );
     });
 
     it("skips when it's Err", () => {
       expect(Result.Err('Oh no').chain(safeJsonParse)).to.satisfy(
-        unionEquals(Result.Err('Oh no')),
+        unionEquals(Result.Err('Oh no'))
+      );
+    });
+  });
+
+  describe('.ap', () => {
+    it('applies the argument to a function', () => {
+      const add = a => b => a + b;
+      const resultFn = Result.Ok(add);
+      expect(resultFn.ap(Result.Ok(3)).ap(Result.Ok(2))).to.satisfy(
+        unionEquals(Result.Ok(5))
+      );
+    });
+
+    it('does nothing if function is Err', () => {
+      const add = a => b => a + b;
+      const resultFn = Result.Err('Oh no');
+      expect(resultFn.ap(Result.Ok(3)).ap(Result.Ok(2))).to.satisfy(
+        unionEquals(Result.Err('Oh no'))
+      );
+    });
+
+    it('does nothing if value is Err', () => {
+      const add = a => b => a + b;
+      const resultFn = Result.Ok(add);
+      expect(resultFn.ap(Result.Err('Oh no'))).to.satisfy(
+        unionEquals(Result.Err('Oh no'))
       );
     });
   });
@@ -269,7 +321,7 @@ describe('Task', () => {
 
     it('executes tasks in order from left to right', () => {
       const delayTask = Task.of(
-        () => new Promise(resolve => setTimeout(resolve, 500)),
+        () => new Promise(resolve => setTimeout(resolve, 500))
       ).map(_ => 3);
 
       const task = Task.sequence([delayTask, Task.succeed(5)]);

@@ -85,6 +85,13 @@ Maybe.prototype.chain = function(func) {
   });
 };
 
+Maybe.prototype.ap = function(maybeVal) {
+  return matchWith(this, {
+    Just: func => maybeVal.map(func),
+    Nothing: () => this,
+  });
+};
+
 // Result
 const Result = union({
   Err: 1,
@@ -111,6 +118,13 @@ Result.prototype.chain = function(func) {
   return matchWith(this, {
     Err: () => this,
     Ok: func,
+  });
+};
+
+Result.prototype.ap = function(resultVal) {
+  return matchWith(this, {
+    Err: () => this,
+    Ok: (func) => resultVal.map(func),
   });
 };
 
