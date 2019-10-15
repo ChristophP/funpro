@@ -6,6 +6,14 @@ Inspired by [Elm](http://elm-lang.org/), [Haskell](https://www.haskell.org/),
 [Folktale](http://folktale.origamitower.com/) and
 [Prof. Frisby](https://drboolean.gitbooks.io/mostly-adequate-guide/).
 
+
+__________________________________________________________________
+Goals for v1:
+- remove all dependencies (Done)
+- make filesize as small as possible
+- possibly remove transpilation (first check if it necessary)
+_________________________________________________________________
+
 ```sh
 npm i -S funpro
 ```
