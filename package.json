@@ -11,7 +11,10 @@
     "union types",
     "pattern matching"
   ],
-  "main": "dist/bundle.js",
+  "main": "dist/main.js",
+  "files": [
+    "/dist/main.js"
+  ],
   "scripts": {
     "build": "webpack --mode production",
     "prepublishOnly": "npm run build",

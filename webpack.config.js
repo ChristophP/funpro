@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    bundle: './index.js',
+    main: './index.js',
   },
   output: {
     filename: '[name].js',
@@ -11,19 +11,20 @@ module.exports = {
     library: 'FunPro',
     libraryTarget: 'umd',
   },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
-        },
-      },
-    ],
-  },
+  // consider not bundling at all, just minify, to keep filesize low
+  //module: {
+    //rules: [
+      //{
+        //test: /\.js$/,
+        //exclude: /node_modules/,
+        //use: {
+          //loader: 'babel-loader',
+          //options: {
+            //presets: ['@babel/preset-env'],
+          //},
+        //},
+      //},
+    //],
+  //},
   plugins: [],
 };
