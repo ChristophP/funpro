@@ -1,4 +1,22 @@
-const equals = require('deep-equal');
+
+// deep equals
+const isObject = (obj) => typeof obj === "object" && obj !== null;
+
+// TODO does this work on arrays?
+const deepEqual = (obj1, obj2) => {
+  if (obj1 === obj2) {
+    return true;
+  }
+  if (isObject(obj1) && isObject(obj2)) {
+    if (Object.keys(obj1).length !== Object.keys(obj2).length) { return false; }
+    for (var prop in obj1) {
+      if (!deepEqual(obj1[prop], obj2[prop])) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
 
 const curryToArity = (fn, arity) => {
   const resolver = (...args) => {
@@ -16,7 +34,7 @@ const append = (list, val) => [...list, val];
 const unionEquals = function(union = {}) {
   return (
     this.__ctor === union.__ctor &&
-    equals(this.__args, union.__args, { strict: true })
+    deepEqual(this.__args, union.__args, { strict: true })
   );
 };
 
