@@ -12,11 +12,14 @@
     "pattern matching"
   ],
   "main": "dist/main.js",
+  "module": "dist/main.mjs",
+  "umd:main": "dist/main.umd.js",
   "files": [
     "/dist/main.js"
   ],
   "scripts": {
-    "build": "webpack --mode production",
+    "prebuild": "rm -rf dist/*",
+    "build": "microbundle build index.js --name FunPro --sourcemap false",
     "prepublishOnly": "npm run build",
     "test": "jest *.test.js"
   },
