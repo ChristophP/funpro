@@ -18,7 +18,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "prepublishOnly": "npm run build",
-    "test": "mocha *.test.js"
+    "test": "jest *.test.js"
   },
   "author": "Deedo P",
   "repository": {
@@ -30,11 +30,9 @@
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
     "babel-loader": "^8.0.6",
-    "chai": "^4.1.2",
-    "chai-as-promised": "^7.1.1",
-    "mocha": "^4.1.0",
-    "ramda": "^0.25.0",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9"
+    "jest": "^25.1.0",
+    "jest-extended": "^0.11.5",
+    "microbundle": "^0.11.0",
+    "ramda": "^0.25.0"
   }
 }
