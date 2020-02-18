@@ -1,6 +1,6 @@
 {
   "name": "funpro",
-  "version": "0.1.11",
+  "version": "1.0.0",
   "description": "Be functional by using union types, pattern matching, and pure side-effects",
   "keywords": [
     "functional programming",
