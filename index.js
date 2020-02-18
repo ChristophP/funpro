@@ -211,7 +211,7 @@ Task.prototype.onError = function (func) {
   return new Task(newFunc);
 };
 
-module.exports = {
+export {
   union,
   matchWith,
   Maybe,

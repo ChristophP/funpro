@@ -1,6 +1,5 @@
-const R = require('ramda');
-
-const {union, matchWith, Maybe, Result, Task} = require('./index');
+import R from 'ramda';
+import {union, matchWith, Maybe, Result, Task} from './index';
 
 const unionEquals = val1 => val2 => val1.equals(val2);
 
