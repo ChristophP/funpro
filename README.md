@@ -5,15 +5,8 @@ A fun, light-weight and zero-dependency lib for functional programming in JS.
 Integrates with [Ramda](http://ramdajs.com/) and partly the
 [Fantasyland](https://github.com/fantasyland/fantasy-land) Spec.
 Inspired by [Elm](http://elm-lang.org/), [Haskell](https://www.haskell.org/),
-[Folktale](http://folktale.origamitower.com/) and
+[Folktale](http://folktale.origamitower.com/) and the legendary
 [Prof. Frisby](https://drboolean.gitbooks.io/mostly-adequate-guide/).
-
-__________________________________________________________________
-Goals for v1:
-- remove all dependencies (Done)
-- make filesize as small as possible
-- possibly remove transpilation (first check if it necessary)
-_________________________________________________________________
 
 ```sh
 npm i -S funpro
