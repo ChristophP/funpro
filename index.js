@@ -37,21 +37,21 @@ const append = (list, val) => [...list, val];
 // Union
 const unionEquals = function (union = {}) {
   return (
-    this.$ === union.$ &&
-    deepEqual(this.a, union.a)
+    this._ctor === union._ctor &&
+    deepEqual(this._args, union._args)
   );
 };
 
 const union = props => {
   const Union = function (ctor, args) {
-    this.$ = ctor;
-    this.a = args;
+    this._ctor = ctor;
+    this._args = args;
     return this;
   };
 
   // static
   const tags = Object.keys(props);
-  Union.t = tags;
+  Union._tags = tags;
   tags.forEach(ctor => {
     const arity = props[ctor];
     Union[ctor] = curryToArity((...args) => new Union(ctor, args), arity);
@@ -67,23 +67,23 @@ const union = props => {
 // Pattern matching
 // TODO handle default case
 const matchWith = (union, cases) => {
-  const {$: ctor} = union;
+  const {_ctor: ctor} = union;
   const allIncluded = (arr1, arr2) => {
     return arr1.every(key => arr2.includes(key));
   };
   if (!union.__UNION__) {
     throw new Error('Trying to pattern match a non-union type.');
   }
-  if (!allIncluded(Object.keys(cases), union.constructor.t)) {
+  if (!allIncluded(Object.keys(cases), union.constructor._tags)) {
     throw new Error('There are not enough branches for all possibilities.');
   }
-  if (!allIncluded(union.constructor.t, Object.keys(cases))) {
+  if (!allIncluded(union.constructor._tags, Object.keys(cases))) {
     throw new Error('There are unrecognized patters in some branches.');
   }
   if (!(ctor in cases) || typeof cases[ctor] !== 'function') {
     throw new Error(`The constructor ${ctor} is not a function.`);
   }
-  return cases[ctor](...union.a);
+  return cases[ctor](...union._args);
 };
 
 // Maybe
@@ -153,8 +153,8 @@ Result.prototype.ap = function (resultVal) {
 
 // Task
 const Task = function (f, args = []) {
-  this.__func = f;
-  this.a = args;
+  this._func = f;
+  this._args = args;
 };
 
 Task.of = (...args) => {
@@ -184,7 +184,7 @@ Task.sequence = taskList =>
 
 // should never be called manually (only by the calling program)
 Task.prototype.run = function () {
-  return Promise.resolve(this.__func(...this.a));
+  return Promise.resolve(this._func(...this._args));
 };
 
 Task.prototype.map = function (func) {

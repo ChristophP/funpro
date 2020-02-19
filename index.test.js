@@ -12,7 +12,7 @@ describe('union', () => {
   describe('create', () => {
     test('a Something has the correct tag.', () => {
       expect(Perhaps.Something(42)).toEqual(expect.objectContaining({
-        $: 'Something',
+        _ctor: 'Something',
       }));
     });
 
@@ -27,7 +27,7 @@ describe('union', () => {
 
     test('a None has the correct tag.', () => {
       expect(Perhaps.None()).toEqual(expect.objectContaining({
-        $: 'None',
+        _ctor: 'None',
       }));
     });
 
@@ -78,7 +78,7 @@ describe('union', () => {
         expect(something).not.toSatisfy(unionEquals(Perhaps.Something(3)));
       });
 
-      test('should not be equal when the tag is the different', () => {
+      test('should not be equal when the tag is different', () => {
         expect(something).not.toSatisfy(unionEquals(Perhaps.None()));
       });
     });
@@ -109,8 +109,8 @@ describe('Maybe', () => {
     test('creates a Just value', () => {
       const maybe = Maybe.Just(42);
       expect(maybe).toEqual(expect.objectContaining({
-        $: 'Just',
-        a: [42],
+        _ctor: 'Just',
+        _args: [42],
       }));
     });
   });
@@ -119,8 +119,8 @@ describe('Maybe', () => {
     test('creates a Nothing value', () => {
       const maybe = Maybe.Nothing();
       expect(maybe).toEqual(expect.objectContaining({
-        $: 'Nothing',
-        a: [],
+        _ctor: 'Nothing',
+        _args: [],
       }));
     });
   });
