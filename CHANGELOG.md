@@ -4,7 +4,7 @@
 
 There should be NO BREAKING changes to previous versions.
 Main changes include.
-- smaller bundlesize
+- even smaller bundlesize
 - remove `deep-equals` dependency => now `funpro` is dependency-free
 - provide different build for CJS, ESM, browser etc.
 - improve test coverage
