@@ -15,7 +15,7 @@
   "module": "dist/main.mjs",
   "umd:main": "dist/main.umd.js",
   "files": [
-    "/dist/main.js"
+    "/dist/*"
   ],
   "scripts": {
     "prebuild": "rm -rf dist/*",
