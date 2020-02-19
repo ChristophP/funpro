@@ -23,8 +23,10 @@ const deepEqual = (obj1, obj2) => {
 const curryToArity = (fn, arity) => {
   const resolver = (...args) => {
     return (...innerArgs) => {
-      const local = [...args, ...innerArgs];
-      return local.length >= arity ? fn(...local) : resolver(...local);
+      // make sure the function won't return functions endlessly when called with no arguments
+      const newArgs = arity !== 0 && innerArgs.length === 0 ? [undefined] : innerArgs;
+      const allArgs = [...args, ...newArgs];
+      return allArgs.length >= arity ? fn(...allArgs) : resolver(...allArgs);
     };
   };
   return resolver();
