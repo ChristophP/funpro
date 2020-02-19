@@ -11,13 +11,17 @@ Inspired by [Elm](http://elm-lang.org/), [Haskell](https://www.haskell.org/),
 ```sh
 npm i -S funpro
 ```
-in your js
+pick your style of importing in your JS code:
 ```js
 // commonJS
 const { union, matchWith, Maybe, Result, Task } = require('funpro');
 
 // ES6
 import { union, matchWith, Maybe, Result, Task } from 'funpro';
+
+// browser
+<script src="/dist/main.umd.js"></script>
+<script>const { Maybe } = window.FunPro;</script>
 ```
 
 Also check out:
