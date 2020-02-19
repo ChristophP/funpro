@@ -81,6 +81,16 @@ describe('union', () => {
       test('should not be equal when the tag is different', () => {
         expect(something).not.toSatisfy(unionEquals(Perhaps.None()));
       });
+
+      test('also works on nested arrays', () => {
+        const someArray = Perhaps.Something([1, 2, [3, 4]]);
+        expect(someArray).toSatisfy(unionEquals(Perhaps.Something([1, 2, [3, 4]])));
+      });
+
+      test('also works on nested objects', () => {
+        const someObject = Perhaps.Something({a: {b: 3}});
+        expect(someObject).toSatisfy(unionEquals(Perhaps.Something({a: {b: 3}})));
+      });
     });
   });
 
