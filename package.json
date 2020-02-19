@@ -1,6 +1,6 @@
 {
   "name": "funpro",
-  "version": "0.1.11",
+  "version": "1.0.0",
   "description": "Be functional by using union types, pattern matching, and pure side-effects",
   "keywords": [
     "functional programming",
@@ -11,11 +11,17 @@
     "union types",
     "pattern matching"
   ],
-  "main": "dist/bundle.js",
+  "main": "dist/main.js",
+  "module": "dist/main.mjs",
+  "umd:main": "dist/main.umd.js",
+  "files": [
+    "/dist/*"
+  ],
   "scripts": {
-    "build": "webpack -p",
+    "prebuild": "rm -rf dist/*",
+    "build": "microbundle index.js --name FunPro --sourcemap false",
     "prepublishOnly": "npm run build",
-    "test": "mocha *.test.js"
+    "test": "jest *.test.js"
   },
   "author": "Deedo P",
   "repository": {
@@ -24,16 +30,12 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.1",
-    "chai": "^4.1.2",
-    "chai-as-promised": "^7.1.1",
-    "mocha": "^4.1.0",
-    "ramda": "^0.25.0",
-    "webpack": "^3.10.0"
-  },
-  "dependencies": {
-    "deep-equal": "^1.0.1"
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.6.3",
+    "babel-jest": "^25.1.0",
+    "jest": "^25.1.0",
+    "jest-extended": "^0.11.5",
+    "microbundle": "^0.11.0",
+    "ramda": "^0.25.0"
   }
 }

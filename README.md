@@ -1,21 +1,27 @@
 # FunPro
 
-Integrates with [Ramda](http://ramdajs.com/) and partly the
-[Fantasyland](https://github.com/fantasyland/fantasy-land) Spec.
+A fun, light-weight and zero-dependency lib for functional programming in JS.
+
+FunPro weighs about 1KB and integrates with [Ramda](http://ramdajs.com/)
+and partly the [Fantasyland](https://github.com/fantasyland/fantasy-land) Spec.
 Inspired by [Elm](http://elm-lang.org/), [Haskell](https://www.haskell.org/),
-[Folktale](http://folktale.origamitower.com/) and
+[Folktale](http://folktale.origamitower.com/) and the legendary
 [Prof. Frisby](https://drboolean.gitbooks.io/mostly-adequate-guide/).
 
 ```sh
 npm i -S funpro
 ```
-in your js
+pick your style of importing in your JS code:
 ```js
 // commonJS
 const { union, matchWith, Maybe, Result, Task } = require('funpro');
 
 // ES6
 import { union, matchWith, Maybe, Result, Task } from 'funpro';
+
+// browser
+<script src="/dist/main.umd.js"></script>
+<script>const { Maybe } = window.FunPro;</script>
 ```
 
 Also check out:
@@ -53,7 +59,6 @@ You don't have to worry about the error and map away.
 At some point you pattern match to handle the different cases.
 
 This could also be thinkable:
-... or this ...
 ```js
 const safeDate = val => {
   try {
@@ -72,7 +77,7 @@ The answer is pattern matching:
 ```js
 const maybePrice = getItemPrice(item); // returns a Maybe with the price or Nothing
 
-const displayPrice = matchtWith(maybePrice, {
+const displayPrice = matchWith(maybePrice, {
   Just: val => `${val.toFixed(2)} $`,
   Nothing: () => 'not for sale',
 })
@@ -96,7 +101,7 @@ const PageState = union({
 ```
 
 `Loading` doesn't need any arguments. `Loaded` will need some sort of content.
-`Error` should contain some kind of error message or reason why it failed.
+`Errored` should contain some kind of error message or reason why it failed.
 
 With pattern matching all the cases can be handled it one place.
 
@@ -150,12 +155,13 @@ main.run()
 ## Random
 ### The mission
 
-I think FP is awesome, this is my attempts to sneak more FP code into the JS world.
-I would prefer a true function language like `Elm` or `Haskell` but sometimes
-there is no way around JS and it is also very capable of writing some FP code.
+I think FP is awesome, this is my attempt to sneak more FP code into the JS world.
+If I could choose I, would prefer a true function language like `Elm` or `Haskell`,
+but sometimes there is no way around JS and luckily, it is also very capable of
+writing some FP code.
 
 ### What's up with the name?
 
-Apparently there are no cool names availbale on npm anymore. The all o a sudden
-I realized that when taking the first 3 letters from  `functional` and `programming`
+Apparently there are no cool names availbale on npm anymore. The all of a sudden
+I realized, that when taking the first 3 letters from  `functional` and `programming`,
 you get the words `fun` and `pro`. Tah-Dah.
