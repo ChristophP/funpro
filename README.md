@@ -162,6 +162,6 @@ writing some FP code.
 
 ### What's up with the name?
 
-Apparently there are no cool names availbale on npm anymore. The all of a sudden
+Apparently there are no cool names availbale on npm anymore. Then all of a sudden
 I realized, that when taking the first 3 letters from  `functional` and `programming`,
 you get the words `fun` and `pro`. Tah-Dah.
